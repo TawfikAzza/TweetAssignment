@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  gateway:
+    image: gateway
+    build:
+      context: .
+      dockerfile: Gateway/Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - intranet
+      - extranet
+  profile:
+    image: profile
+    build:
+      context: .
+      dockerfile: ProfileService/Dockerfile
+    depends_on:
+      - rabbitmq
+    environment:
+        - RabbitMq__Host=rabbitmq
+        - RabbitMq__Port=5672
+        - RabbitMq__Username=guest
+        - RabbitMq__Password=guest
+    ports:
+        - "81:80"
+    networks:
+      - intranet
+  user:
+    image: user
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    depends_on:
+      - rabbitmq
+    environment:
+        - RabbitMq__Host=rabbitmq
+        - RabbitMq__Port=5672
+        - RabbitMq__Username=guest
+        - RabbitMq__Password=guest
+    ports:
+      - "82:80"
+    networks:
+      - intranet
+  tweet:
+    image: tweet
+    build:
+      context: .
+      dockerfile: TweetService/Dockerfile
+    depends_on:
+      - rabbitmq
+    environment:
+        - RabbitMq__Host=rabbitmq
+        - RabbitMq__Port=5672
+        - RabbitMq__Username=guest
+        - RabbitMq__Password=guest
+    ports:
+      - "83:80"
+    networks:
+      - intranet
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    networks:
+      - intranet
+      
+networks:
+  intranet:
+    external: false
+  extranet:
+    external: true
