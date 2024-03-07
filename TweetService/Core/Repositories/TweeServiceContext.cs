@@ -16,10 +16,13 @@ public class TweeServiceContext : DbContext
         modelBuilder.Entity<Tweet>()
             .Property(p => p.Id)
             .ValueGeneratedOnAdd();
+
         
         modelBuilder.Entity<User>()
             .Property(p => p.Id)
             .ValueGeneratedOnAdd();
+
+
     }
     
     public DbSet<Tweet> TweetTable { get; set; }
