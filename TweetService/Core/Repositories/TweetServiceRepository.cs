@@ -25,7 +25,9 @@ public class TweetServiceRepository
     public void DeleteTweet(int tweetId)
     {
         _context.TweetTable.Remove(_context.TweetTable.Find(tweetId));
+
         _context.SaveChanges();
+
     }
 
     public List<Tweet> GetTweets(int userId)
