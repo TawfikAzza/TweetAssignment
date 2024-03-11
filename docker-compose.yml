@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    networks:
+      - intranet
   gateway:
     image: gateway
     build:
@@ -19,6 +29,7 @@ services:
     depends_on:
       - rabbitmq
     environment:
+        - EASYNETQ_CONNECTION_STRING=host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest
         - RabbitMq__Host=rabbitmq
         - RabbitMq__Port=5672
         - RabbitMq__Username=guest
@@ -51,6 +62,7 @@ services:
     depends_on:
       - rabbitmq
     environment:
+        - EASYNETQ_CONNECTION_STRING=host=rabbitmq;username=guest;password=guest
         - RabbitMq__Host=rabbitmq
         - RabbitMq__Port=5672
         - RabbitMq__Username=guest
@@ -59,16 +71,7 @@ services:
       - "83:80"
     networks:
       - intranet
-  rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: "guest"
-      RABBITMQ_DEFAULT_PASS: "guest"
-    networks:
-      - intranet
+  
       
 networks:
   intranet:
