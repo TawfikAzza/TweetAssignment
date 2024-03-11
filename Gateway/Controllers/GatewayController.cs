@@ -1,6 +1,8 @@
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Domain;
+using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TweetAssignment.Controllers;
@@ -45,26 +47,59 @@ public class GatewayController : ControllerBase
     
     // Tweets
     [HttpPost("Tweet")]
-    public void AddTweet(Tweet tweet) //TODO: Return action result, also PostTweetDTO (w/o id)
+    public async Task<ActionResult<Tweet>> AddTweet(PostTweetDTO dto)
     {
-        _tweetApi.PostAsync("TweetServiceController/Tweet", new StringContent(JsonSerializer.Serialize(tweet), Encoding.UTF8, "application/json"));
+        var response = _tweetApi.PostAsync("TweetService/Tweet", new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
+        Console.WriteLine(response.Result.StatusCode);
+    
+        if (!response.Result.IsSuccessStatusCode)
+        {
+            return StatusCode(500);
+        }
+
+        var responseContent = response.Result.Content.ReadAsStringAsync();
+
+        // Deserialize response content to Tweet object
+        var tweet = JsonSerializer.Deserialize<Tweet>(responseContent.Result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+
+        if (tweet == null)
+        {
+            return StatusCode(500, "Failed to deserialize response from the server.");
+        }
+
+        // Return the deserialized tweet
+        return tweet;
     }
+
+    
     
     [HttpDelete("Tweet")]
-    public void DeleteTweet(int tweetId)
+    public ActionResult DeleteTweet(int tweetId)
     {
-        _tweetApi.DeleteAsync("TweetServiceController/Tweet?tweetId=" + tweetId);
+        var response = _tweetApi.DeleteAsync("TweetService/Tweet?tweetId=" + tweetId);
+        return StatusCode(response.Result.StatusCode.GetHashCode());
     }
     
     [HttpGet("Tweet")]
-    public List<Tweet> GetTweets(int userId)
+    public ActionResult<List<Tweet>> GetTweets(int userId)
     {
-        var response = _tweetApi.GetAsync("TweetServiceController/Tweet?userId=" + userId);
+        var response = _tweetApi.GetAsync("TweetService/Tweet?userId=" + userId);
         if (response.Result.IsSuccessStatusCode)
         {
             var responseContent = response.Result.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<Tweet>>(responseContent.Result);
+            var tweets = JsonSerializer.Deserialize<List<Tweet>>(responseContent.Result, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            if (tweets == null)
+            {
+                return StatusCode(500, "Failed to deserialize response from the server.");
+            }
+            return tweets;
         }
-        return new List<Tweet>();
+        return StatusCode(response.Result.StatusCode.GetHashCode());
     }
 }

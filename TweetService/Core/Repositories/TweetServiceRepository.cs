@@ -8,12 +8,14 @@ public class TweetServiceRepository
     public TweetServiceRepository(TweeServiceContext context)
     {
         _context = context;
+        RebuildDB();
     }
     
-    public void AddTweet(Tweet tweet)
+    public Tweet AddTweet(Tweet tweet)
     {
         _context.TweetTable.Add(tweet);
         _context.SaveChanges();
+        return tweet;
     }
 
     public void RebuildDB()

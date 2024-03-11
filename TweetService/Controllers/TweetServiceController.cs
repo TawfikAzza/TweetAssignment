@@ -1,4 +1,5 @@
 using Domain;
+using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TweetService.Controllers;
@@ -19,9 +20,9 @@ public class TweetServiceController : ControllerBase
     }
 
     [HttpPost("Tweet")]
-    public void AddTweet(Tweet tweet)
+    public ActionResult<Tweet> AddTweet(PostTweetDTO dto)
     {
-        _service.AddTweet(tweet);
+        return _service.AddTweet(dto);
     }
     
     [HttpDelete("Tweet")]
