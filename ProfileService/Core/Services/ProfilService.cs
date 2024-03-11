@@ -16,4 +16,9 @@ public class ProfilService
     {
         return _repository.GetProfile(userId);
     }
+
+    public void rebuildDB()
+    {
+        _repository.rebuildDB();
+    }
 }

@@ -34,23 +34,23 @@ public class TweetService
         var bus = RabbitHutch.CreateBus(connectionString);
         var publisher = new Publisher(bus);
         var subscriber = new Subscriber(bus);
-        //subscriber.Subscribe("profile");
-        //
-        // Console.WriteLine("Subscribed to tweet");
-        //  Thread.Sleep(5000);
-        // publisher.PublishMessageAsync("New tweet", "tweet");
-        // Thread.Sleep(2000);
-        Tweet newTweet = new Tweet()
-        {
+
+       //subscriber.Subscribe("profile");
+       // Console.WriteLine("Subscribed to tweet");
+      //  Thread.Sleep(5000);
+       // publisher.PublishMessageAsync("New tweet", "tweet");
+       // Thread.Sleep(2000);
+      
+       var tweetMessage = new TweetMessage
+       {
+           MessageType = "Tweet",
            UserId = tweet.UserId,
            Text = tweet.Text,
            CreatedAt = tweet.CreatedAt
-        };
-       string message = JsonConvert.SerializeObject(tweet, Formatting.Indented);
-        publisher.PublishMessageAsync(message, "profile");
-        Console.WriteLine("Tweet published");
-        
-        return addedTweet;
+       };
+       publisher.PublishMessageAsync(tweetMessage, "profile");
+       Console.WriteLine("Tweet published");
+       return addedTweet;
     }
 
     public void RebuildDB()

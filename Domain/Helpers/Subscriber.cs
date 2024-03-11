@@ -15,12 +15,12 @@ public class Subscriber
     {
         
         //bus.PubSub.Subscribe<TMessage>("1", HandleMessage, x => x.WithTopic(topic));
-        await bus.PubSub.SubscribeAsync<TMessage>(topic, HandleMessage, x => x.WithTopic(topic));
+        await bus.PubSub.SubscribeAsync<ITMessage>(topic, HandleMessage, x => x.WithTopic(topic));
         
     }
 
-    private void HandleMessage(TMessage message)
+    private void HandleMessage(ITMessage message)
     {
-        Console.WriteLine($"Received: {message.Text}");
+        Console.WriteLine($"Received: {message.MessageType}");
     }
 }
