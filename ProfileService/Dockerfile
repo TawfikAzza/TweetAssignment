@@ -17,4 +17,9 @@ RUN dotnet publish "ProfileService.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ProfileService.dll"]
+COPY --from=build /src/ProfileService/wait-for-it.sh . 
+# Make sure to copy the script to the final image
+RUN chmod +x wait-for-it.sh
+
+# Use the script to wait for RabbitMQ before starting your service
+ENTRYPOINT ["./wait-for-it.sh", "rabbitmq:5672", "--", "dotnet", "ProfileService.dll"]
