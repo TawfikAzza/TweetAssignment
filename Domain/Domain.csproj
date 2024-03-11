@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="EasyNetQ" Version="8.0.0-beta95" />
+    </ItemGroup>
+
 </Project>
