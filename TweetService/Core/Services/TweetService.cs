@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.DTO;
 using Domain.Helpers;
 using EasyNetQ;
 using Newtonsoft.Json;
@@ -16,13 +17,24 @@ public class TweetService
     }
 
 
-    public void AddTweet(Tweet tweet)
+    public Tweet AddTweet(PostTweetDTO dto)
     {
-        _repository.AddTweet(tweet);
+        //Map
+        var tweet = new Tweet()
+        {
+            Text = dto.Text,
+            CreatedAt = dto.CreatedAt,
+            UserId = dto.UserId
+        };
+        
+        Tweet addedTweet = _repository.AddTweet(tweet);
+        
+        //Publish Tweet for Profile Service
         var connectionString = Environment.GetEnvironmentVariable("EASYNETQ_CONNECTION_STRING");
         var bus = RabbitHutch.CreateBus(connectionString);
         var publisher = new Publisher(bus);
         var subscriber = new Subscriber(bus);
+
        //subscriber.Subscribe("profile");
        // Console.WriteLine("Subscribed to tweet");
       //  Thread.Sleep(5000);
@@ -38,6 +50,7 @@ public class TweetService
        };
        publisher.PublishMessageAsync(tweetMessage, "profile");
        Console.WriteLine("Tweet published");
+       return addedTweet;
     }
 
     public void RebuildDB()

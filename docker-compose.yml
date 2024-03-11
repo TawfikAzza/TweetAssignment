@@ -23,6 +23,10 @@ services:
       dockerfile: Gateway/Dockerfile
     ports:
       - "80:80"
+    depends_on: 
+      - tweet
+      - user
+      - profile
     networks:
       - intranet
       - extranet
