@@ -19,9 +19,15 @@ public class UserServiceController : ControllerBase
     }
 
     [HttpPost("User")]
-    public void AddUser(User user)
+    public ActionResult<User> AddUser(User user)
     {
-        _service.AddUser(user);
+        return _service.AddUser(user);
+    }
+    
+    [HttpPut("User")]
+    public ActionResult<User> EditUser(User user)
+    {
+        return _service.EditUser(user);
     }
     
     [HttpDelete("User")]
@@ -31,10 +37,13 @@ public class UserServiceController : ControllerBase
     }
     
     [HttpGet("User")]
-    public User GetUser(int userId)
+    public ActionResult<User> GetUser(int userId)
     {
-        return _service.GetUser(userId);
+        try {
+            return _service.GetUser(userId);
+        } catch (KeyNotFoundException e) {
+            return NotFound(e.Message);
+        }
     }
- 
     
 }

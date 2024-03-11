@@ -28,23 +28,75 @@ public class GatewayController : ControllerBase
     
     // Users
     [HttpPost("User")]
-    public void AddUser(User user)
+    public ActionResult<User> AddUser(User user)
     {
-        //TODO: Send the request to the UserService
+        var response = _userApi.PostAsync("UserService/User", new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json"));
+        if (!response.Result.IsSuccessStatusCode)
+        {
+            return StatusCode(500);
+        }
+        var responseContent = response.Result.Content.ReadAsStringAsync();
+        var userResponse = JsonSerializer.Deserialize<User>(responseContent.Result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+        if (userResponse == null)
+        {
+            return StatusCode(500, "Failed to deserialize response from the server.");
+        }
+        return userResponse;
     }
     
     [HttpDelete("User")]
     public void DeleteUser(int userId)
     {
-        //TODO: Send the request to the UserService 
+        var response = _userApi.DeleteAsync("UserService/User?userId=" + userId);
+        if (!response.Result.IsSuccessStatusCode)
+        {
+            StatusCode(500);
+        }
     }
     
     [HttpGet("User")]
-    public User GetUser(int userId)
+    public ActionResult<User> GetUser(int userId)
     {
-        return new User();
+        var response = _userApi.GetAsync("UserService/User?userId=" + userId);
+        if (response.Result.IsSuccessStatusCode)
+        {
+            var responseContent = response.Result.Content.ReadAsStringAsync();
+            var user = JsonSerializer.Deserialize<User>(responseContent.Result, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            if (user == null)
+            {
+                return StatusCode(500, "Failed to deserialize response from the server.");
+            }
+            return user;
+        }
+        return StatusCode(response.Result.StatusCode.GetHashCode());
     }
-    
+
+    [HttpPut("User")]
+    public ActionResult<User> EditUser(User user)
+    {
+        var response = _userApi.PutAsync("UserService/User", new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json"));
+        if (!response.Result.IsSuccessStatusCode)
+        {
+            return StatusCode(500);
+        }
+        var responseContent = response.Result.Content.ReadAsStringAsync();
+        var userResponse = JsonSerializer.Deserialize<User>(responseContent.Result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+        if (userResponse == null)
+        {
+            return StatusCode(500, "Failed to deserialize response from the server.");
+        }
+        return userResponse;
+    }
+
     // Tweets
     [HttpPost("Tweet")]
     public async Task<ActionResult<Tweet>> AddTweet(PostTweetDTO dto)

@@ -17,16 +17,25 @@ public class UserService
         _repository.RebuildDB();
     }
 
-    public void AddUser(User user)
+    public User AddUser(User user)
     {
-        _repository.AddUser(user);
+        User addedUser = _repository.AddUser(user);
+        //TODO: Send message to ProfileService to add the user to the cache
+        return addedUser;
     }
-
+    
+    public User EditUser(User user)
+    {
+        User editedUser = _repository.EditUser(user);
+        //TODO: Send message to ProfileService to update the user in the cache
+        return editedUser;
+    }
+    
     public void DeleteUser(int userId)
     {
         _repository.DeleteUser(userId);
     }
-
+    
     public User GetUser(int userId)
     {
         return _repository.GetUser(userId);

@@ -8,6 +8,7 @@ public class UserServiceRepository
     public UserServiceRepository(UserServiceContext context)
     {
         _context = context;
+        RebuildDB();
     }
 
     public void RebuildDB()
@@ -16,10 +17,11 @@ public class UserServiceRepository
         _context.Database.EnsureCreated();
     }
 
-    public void AddUser(User user)
+    public User AddUser(User user)
     {
         _context.UserTable.Add(user);
         _context.SaveChanges();
+        return user;
     }
 
     public void DeleteUser(int userId)
@@ -30,6 +32,13 @@ public class UserServiceRepository
 
     public User GetUser(int userId)
     {
-        return _context.UserTable.Find(userId);
+        return _context.UserTable.Find(userId) ?? throw new KeyNotFoundException("User with ID " + userId + " not found");
+    }
+    
+    public User EditUser(User user)
+    {
+        _context.UserTable.Update(user);
+        _context.SaveChanges();
+        return user;
     }
 }
