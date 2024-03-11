@@ -33,7 +33,7 @@ while (!subscribed && retryCount < 5) {
     } catch (Exception ex) {
         retryCount++;
         Console.WriteLine("ERROR SUBSCRIBING TO PROFILE: " + ex.Message);
-        Task.Delay(1000);
+        await Task.Delay(1000);
     }
 }
 //profileSubscriberService.Subscribe("profile");

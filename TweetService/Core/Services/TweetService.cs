@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Helpers;
 using EasyNetQ;
+using Newtonsoft.Json;
 using TweetService.Core.Repositories;
 
 namespace TweetService.Core.Services;
@@ -22,12 +23,19 @@ public class TweetService
         var bus = RabbitHutch.CreateBus(connectionString);
         var publisher = new Publisher(bus);
         var subscriber = new Subscriber(bus);
-       subscriber.Subscribe("profile");
+       //subscriber.Subscribe("profile");
        // Console.WriteLine("Subscribed to tweet");
-        Thread.Sleep(5000);
+      //  Thread.Sleep(5000);
        // publisher.PublishMessageAsync("New tweet", "tweet");
        // Thread.Sleep(2000);
-        publisher.PublishMessageAsync("New tweet", "profile");
+       Tweet newTweet = new Tweet()
+       {
+           UserId = tweet.UserId,
+           Text = tweet.Text,
+           CreatedAt = tweet.CreatedAt
+       };
+       string message = JsonConvert.SerializeObject(tweet, Formatting.Indented);
+        publisher.PublishMessageAsync(message, "profile");
         Console.WriteLine("Tweet published");
     }
 
