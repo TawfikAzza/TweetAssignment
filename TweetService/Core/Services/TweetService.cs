@@ -28,15 +28,16 @@ public class TweetService
       //  Thread.Sleep(5000);
        // publisher.PublishMessageAsync("New tweet", "tweet");
        // Thread.Sleep(2000);
-       Tweet newTweet = new Tweet()
+      
+       var tweetMessage = new TweetMessage
        {
+           MessageType = "Tweet",
            UserId = tweet.UserId,
            Text = tweet.Text,
            CreatedAt = tweet.CreatedAt
        };
-       string message = JsonConvert.SerializeObject(tweet, Formatting.Indented);
-        publisher.PublishMessageAsync(message, "profile");
-        Console.WriteLine("Tweet published");
+       publisher.PublishMessageAsync(tweetMessage, "profile");
+       Console.WriteLine("Tweet published");
     }
 
     public void RebuildDB()

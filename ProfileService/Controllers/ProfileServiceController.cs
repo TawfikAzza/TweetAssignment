@@ -18,5 +18,11 @@ public class ProfileServiceController : ControllerBase
     {
         return _service.GetProfile(userId);
     }
+    
+    [HttpGet("rebuildDB")]
+    public void rebuildDB()
+    {
+        _service.rebuildDB();
+    }
    
 }

@@ -11,9 +11,8 @@ public class Publisher
         this.bus = bus;
     }
 
-    public async Task PublishMessageAsync(string messageText, string topic)
+    public async Task PublishMessageAsync(ITMessage message, string topic)
     {
-        var message = new TMessage { Text = messageText };
         await bus.PubSub.PublishAsync(message, topic);
     }
 }

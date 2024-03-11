@@ -14,4 +14,10 @@ public class ProfileServiceRepository
     {
         return _context.ProfileTable.Find(userId);
     }
+
+    public void rebuildDB()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Database.EnsureCreated();
+    }
 }

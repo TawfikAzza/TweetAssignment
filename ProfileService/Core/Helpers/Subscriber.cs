@@ -16,12 +16,28 @@ public class Subscriber
     {
         
         //bus.PubSub.Subscribe<TMessage>("1", HandleMessage, x => x.WithTopic(topic));
-        await bus.PubSub.SubscribeAsync<TMessage>(topic, HandleMessage, x => x.WithTopic(topic));
+        await bus.PubSub.SubscribeAsync<ITMessage>(topic, HandleMessage, x => x.WithTopic(topic));
         Console.WriteLine($"Subscribed to {topic}");
     }
 
-    private void HandleMessage(TMessage message)
+    private void HandleMessage(ITMessage message)
     {
-        Console.WriteLine($"Received In Profile:  {message.Text}");
+        Console.WriteLine($"Received In Profile:  {message.MessageType}");
+        switch (message.MessageType)
+        {
+            case "User":
+                var userMessage = message as UserMessage;
+                // Handle user message
+                Console.WriteLine($"Received user update: {userMessage.Username}");
+                break;
+            case "Tweet":
+                var tweetMessage = message as TweetMessage;
+                // Handle tweet message
+                Console.WriteLine($"Received tweet: {tweetMessage.Text}");
+                break;
+            default:
+                Console.WriteLine("Unknown message type.");
+                break;
+        }
     }
 }
