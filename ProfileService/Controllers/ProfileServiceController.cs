@@ -7,8 +7,8 @@ namespace ProfileService.Controllers;
 [Route("[controller]")]
 public class ProfileServiceController : ControllerBase
 {
-    private readonly ProfileService.Core.Services.ProfilService _service;
-    public ProfileServiceController(ProfileService.Core.Services.ProfilService service)
+    private readonly ProfileService.Core.Services.ProfileService _service;
+    public ProfileServiceController(ProfileService.Core.Services.ProfileService service)
     {
         _service = service;
     }
