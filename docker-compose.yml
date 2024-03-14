@@ -55,6 +55,7 @@ services:
     depends_on:
       - rabbitmq
     environment:
+        - EASYNETQ_CONNECTION_STRING=host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest
         - RabbitMq__Host=rabbitmq
         - RabbitMq__Port=5672
         - RabbitMq__Username=guest

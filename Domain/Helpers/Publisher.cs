@@ -4,15 +4,15 @@ namespace Domain.Helpers;
 
 public class Publisher
 {
-    private readonly IBus bus;
-
-    public Publisher(IBus bus)
+    private readonly IBus _bus;
+    public Publisher()
     {
-        this.bus = bus;
+        var connectionString = Environment.GetEnvironmentVariable("EASYNETQ_CONNECTION_STRING"); 
+        _bus = RabbitHutch.CreateBus(connectionString);
     }
 
     public async Task PublishMessageAsync(ITMessage message, string topic)
     {
-        await bus.PubSub.PublishAsync(message, topic);
+        await _bus.PubSub.PublishAsync(message, topic);
     }
 }

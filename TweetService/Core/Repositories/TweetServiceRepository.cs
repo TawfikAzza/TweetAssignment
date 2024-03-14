@@ -20,7 +20,6 @@ public class TweetServiceRepository
 
     public void RebuildDB()
     {
-        _context.Database.EnsureDeleted();
         _context.Database.EnsureCreated();
     }
 
@@ -35,5 +34,10 @@ public class TweetServiceRepository
     public List<Tweet> GetTweets(int userId)
     {
         return _context.TweetTable.Where(t => t.UserId == userId).ToList();
+    }
+
+    public Tweet GetTweet(int tweetId)
+    {
+        return _context.TweetTable.Find(tweetId) ?? throw new KeyNotFoundException("Tweet not found");
     }
 }
