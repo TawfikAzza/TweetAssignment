@@ -61,7 +61,8 @@ public class TweetService
             MessageType = "Tweet",
             UserId = tweet.UserId,
             Text = tweet.Text,
-            CreatedAt = tweet.CreatedAt
+            CreatedAt = tweet.CreatedAt,
+            Id = tweet.Id   
         };
         publisher.PublishMessageAsync(tweetMessage, "tweet.delete");
     }
