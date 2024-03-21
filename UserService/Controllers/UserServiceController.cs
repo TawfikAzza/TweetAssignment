@@ -23,6 +23,11 @@ public class UserServiceController : ControllerBase
     {
         _service.AddUser(user);
     }
+    [HttpPut("User")]
+    public User UpdateUser(User user)
+    {
+        return _service.UpdateUser(user);
+    }
     
     [HttpDelete("User")]
     public void DeleteUser(int userId)
@@ -35,6 +40,7 @@ public class UserServiceController : ControllerBase
     {
         return _service.GetUser(userId);
     }
+    
  
     
 }

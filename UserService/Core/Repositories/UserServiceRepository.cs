@@ -36,8 +36,11 @@ public class UserServiceRepository
 
     public User UpdateUser(User user)
     {
-        _context.UserTable.Update(user);
+        User userToUpdate = _context.UserTable.Find(user.Id);
+        userToUpdate.Username = user.Username;
+        userToUpdate.Bio = user.Bio;
+        _context.UserTable.Update(userToUpdate);
         _context.SaveChanges();
-        return user;
+        return userToUpdate;
     }
 }
