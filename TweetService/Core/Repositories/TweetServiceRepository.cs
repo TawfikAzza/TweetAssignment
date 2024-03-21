@@ -11,6 +11,11 @@ public class TweetServiceRepository : ITweetRepository
         RebuildDB();
     }
     
+    public TweetServiceRepository()
+    {
+        
+    }
+    
     public Tweet AddTweet(Tweet tweet)
     {
         _context.TweetTable.Add(tweet);

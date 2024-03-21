@@ -9,11 +9,13 @@ namespace TweetService.Core.Services;
 
 public class TweetService
 {
-    private readonly TweetServiceRepository _repository;
+    private readonly ITweetRepository _repository;
+    private readonly Publisher _publisher;
 
-    public TweetService(TweetServiceRepository repository)
+    public TweetService(ITweetRepository repository, Publisher publisher)
     {
         _repository = repository;
+        _publisher = publisher;
     }
 
     public TweetService()
@@ -31,8 +33,6 @@ public class TweetService
 
         Tweet addedTweet = _repository.AddTweet(tweet);
 
-        var publisher = new Publisher();
-
         var tweetMessage = new TweetMessage
         {
             MessageType = "Tweet",
@@ -41,7 +41,7 @@ public class TweetService
             CreatedAt = addedTweet.CreatedAt,
             Id = addedTweet.Id
         };
-        publisher.PublishMessageAsync(tweetMessage, "tweet.add");
+        _publisher.PublishMessageAsync(tweetMessage, "tweet.add");
         return addedTweet;
     }
 
