@@ -78,7 +78,7 @@ public class Subscriber
     private void HandleMessageToAddTweet(ITMessage message)
     {
         var tweetMessage = message as TweetMessage;
-        Console.WriteLine("Received In Add Tweet:  {message.MessageType}");
+        Console.WriteLine($"Received In Add Tweet:  {message.MessageType}");
         Console.WriteLine($"Tweet Id: {tweetMessage.Id} UserId: {tweetMessage.UserId} Text: {tweetMessage.Text} CreatedAt: {tweetMessage.CreatedAt}");
         Profile profile = _service.GetProfile(tweetMessage.UserId);
         if (profile != null)
@@ -98,7 +98,7 @@ public class Subscriber
     private void HandleMessageToDeleteTweet(ITMessage message)
     {
         var tweetMessage = message as TweetMessage;
-        Console.WriteLine("Received In Delete Tweet:  {message.MessageType}");
+        Console.WriteLine($"Received In Delete Tweet:  {message.MessageType}");
         Profile profile = _service.GetProfile(tweetMessage.UserId);
         if (profile != null)
         {
@@ -106,7 +106,8 @@ public class Subscriber
             {
                 Text = tweetMessage.Text,
                 CreatedAt = tweetMessage.CreatedAt,
-                UserId = tweetMessage.UserId
+                UserId = tweetMessage.UserId,
+                Id = tweetMessage.Id
             };
             
             _service.DeleteTweetFromProfile(profile,tweetToDelete);
