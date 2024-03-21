@@ -53,9 +53,9 @@ public class TweetService
     public void DeleteTweet(int tweetId)
     {
         var tweet = _repository.GetTweet(tweetId);
+        
         _repository.DeleteTweet(tweetId);
-        Publisher publisher = new Publisher();
-        if(tweet == null) throw new KeyNotFoundException("Tweet not found");
+        
         var tweetMessage = new TweetMessage
         {
             MessageType = "Tweet",
@@ -63,7 +63,7 @@ public class TweetService
             Text = tweet.Text,
             CreatedAt = tweet.CreatedAt
         };
-        publisher.PublishMessageAsync(tweetMessage, "tweet.delete");
+        _publisher.PublishMessageAsync(tweetMessage, "tweet.delete");
     }
 
     public List<Tweet> GetTweets(int userId)
