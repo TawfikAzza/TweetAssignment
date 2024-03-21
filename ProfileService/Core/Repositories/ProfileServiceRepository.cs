@@ -1,6 +1,8 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+
 using ProfileService.Core.Helpers;
+
 
 namespace ProfileService.Core.Repositories;
 
@@ -18,6 +20,23 @@ public class ProfileServiceRepository
     {
         return _context.ProfileTable.Include(p=> p.Tweets).FirstOrDefault(p => p.UserId == userId) ?? throw new KeyNotFoundException("Profile not found");
     }
+
+    // public void AddOrUpdateTweetToProfile(Profile profileSent, Tweet tweet)
+    // {
+    //     Profile profile = _context.ProfileTable.Find(profileSent.Id) ?? throw new KeyNotFoundException("Profile not found");
+    //     Console.WriteLine("Checking if tweet limit is reached");
+    //     if (profile.Tweets.Count >= MAX_TWEETS)
+    //     {
+    //         var oldestTweet = profile.Tweets.OrderBy(t => t.CreatedAt).First();
+    //         profile.Tweets.Remove(oldestTweet);
+    //     }
+    //
+    //     Console.WriteLine("Adding tweet to profile");
+    //     profile.Tweets.Add(tweet);
+    //    // _context.ProfileTable.Update(profile);
+    //     _context.SaveChanges();
+    // }
+
     public void AddOrUpdateTweetToProfile(Profile profileSent, Tweet tweet)
     {
         var profile = _context.ProfileTable
@@ -25,7 +44,7 @@ public class ProfileServiceRepository
             .FirstOrDefault(p => p.Id == profileSent.Id) ?? throw new KeyNotFoundException("Profile not found");
 
         Console.WriteLine("Checking if tweet limit is reached");
-        
+
 
         if (profile.Tweets.Count >= MAX_TWEETS)
         {
@@ -34,6 +53,7 @@ public class ProfileServiceRepository
             if (oldestTweet != null)
             {
                 _context.ProfileTweetTable.Remove(oldestTweet); 
+
             }
         }
 
@@ -89,10 +109,12 @@ public class ProfileServiceRepository
     public void DeleteTweetFromProfile(Profile profileSent, Tweet tweetToDelete)
     {
         Profile profile = _context.ProfileTable.Include(p => p.Tweets).FirstOrDefault(p => p.Id == profileSent.Id) ?? throw new KeyNotFoundException("Profile not found");
+
         ProfileTweet tweet = _context.ProfileTweetTable.FirstOrDefault(t => t.Id == tweetToDelete.Id) ?? throw new KeyNotFoundException("Tweet not found");
         if (profile.Tweets.Contains(tweet))
         {
             profile.Tweets.Remove(tweet);
+
             _context.ProfileTable.Update(profile);
             _context.SaveChanges();
         }

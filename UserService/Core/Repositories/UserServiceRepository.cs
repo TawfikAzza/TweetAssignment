@@ -42,5 +42,6 @@ public class UserServiceRepository
         _context.UserTable.Update(userToUpdate);
         _context.SaveChanges();
         return userToUpdate;
+
     }
 }

@@ -55,7 +55,6 @@ public class TweetService
         var tweet = _repository.GetTweet(tweetId);
         _repository.DeleteTweet(tweetId);
         Publisher publisher = new Publisher();
-        
         if(tweet == null) throw new KeyNotFoundException("Tweet not found");
         var tweetMessage = new TweetMessage
         {
