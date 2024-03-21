@@ -8,11 +8,13 @@ public class Publisher
     public Publisher()
     {
         var connectionString = Environment.GetEnvironmentVariable("EASYNETQ_CONNECTION_STRING"); 
+
         _bus = RabbitHutch.CreateBus(connectionString);
     }
 
     public async Task PublishMessageAsync(ITMessage message, string topic)
     {
+        
         await _bus.PubSub.PublishAsync(message, topic);
     }
 }

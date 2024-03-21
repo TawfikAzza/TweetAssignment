@@ -9,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 var rabbitMqConnectionString = Environment.GetEnvironmentVariable("EASYNETQ_CONNECTION_STRING");
 //var rabbitMqConnectionString = "host=rabbitmq;port=5672;username=guest;password=guest";
 builder.Services.AddSingleton<IBus>(RabbitHutch.CreateBus(rabbitMqConnectionString));
-
+//builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(rabbitMqConnectionString)));
+builder.Services.AddScoped<ProfileService.Core.Services.ProfileService>();
+//builder.Services.AddHostedService<MessageHandler>();
 // Add services to the container.
 
 builder.Services.AddControllers();

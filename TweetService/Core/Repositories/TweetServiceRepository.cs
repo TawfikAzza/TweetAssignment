@@ -2,7 +2,7 @@
 
 namespace TweetService.Core.Repositories;
 
-public class TweetServiceRepository
+public class TweetServiceRepository : ITweetRepository
 {
     private TweeServiceContext _context;
     public TweetServiceRepository(TweeServiceContext context)

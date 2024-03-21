@@ -16,8 +16,11 @@ public class TweetService
         _repository = repository;
     }
 
-
-    public Tweet AddTweet(PostTweetDTO dto)
+    public TweetService()
+    {
+        
+    }
+    public virtual Tweet AddTweet(PostTweetDTO dto)
     {
         var tweet = new Tweet()
         {
@@ -49,9 +52,9 @@ public class TweetService
 
     public void DeleteTweet(int tweetId)
     {
+        var tweet = _repository.GetTweet(tweetId);
         _repository.DeleteTweet(tweetId);
         Publisher publisher = new Publisher();
-        var tweet = _repository.GetTweet(tweetId);
         if(tweet == null) throw new KeyNotFoundException("Tweet not found");
         var tweetMessage = new TweetMessage
         {
