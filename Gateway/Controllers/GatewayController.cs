@@ -22,7 +22,7 @@ public class GatewayController : ControllerBase
     // Profile
     [HttpGet("Profile")]
     public Profile GetProfile(int userId)
-    {
+    { 
         return new Profile();
     }
     

@@ -1,0 +1,102 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/Profile",
+      "DownstreamPathTemplate": "/ProfileService/Profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profile",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/UserService/User",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/UserService/User",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/UserService/User",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/UserService/User",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Tweet",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/TweetService/Tweet",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tweet",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Tweet",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/TweetService/Tweet",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tweet",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Tweet",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/TweetService/Tweet",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tweet",
+          "Port": 80
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5291"
+  }
+}
