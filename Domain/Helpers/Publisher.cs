@@ -5,14 +5,18 @@ namespace Domain.Helpers;
 public class Publisher
 {
     private readonly IBus _bus;
-    public Publisher()
+    public Publisher(string connectionString)
     {
-        var connectionString = Environment.GetEnvironmentVariable("EASYNETQ_CONNECTION_STRING"); 
-
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new System.ArgumentException("IsNullOrEmpty", nameof(connectionString));
+        }
         _bus = RabbitHutch.CreateBus(connectionString);
     }
+    
+    public Publisher() { } // For testing purposes
 
-    public async Task PublishMessageAsync(ITMessage message, string topic)
+    public virtual async Task PublishMessageAsync(ITMessage message, string topic)
     {
         
         await _bus.PubSub.PublishAsync(message, topic);

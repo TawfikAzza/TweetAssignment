@@ -6,7 +6,7 @@ using TweetService.Core.Repositories;
 
 namespace TweetService.Tests;
 
-public class TestTweetServicePost
+public class TweetServiceControllerTests
 {
     [Fact]
     public void TweetPost_ShouldCallAddTweet()
