@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{1A29CC26-64F1-4D72-AA9A-4A24B54840E1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{BBE0A84C-3B86-40C0-80ED-6ADD0697A2A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileService", "ProfileService\ProfileService.csproj", "{3BCE7C6E-D438-4DFC-9923-0DA1D4540088}"
@@ -27,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1A29CC26-64F1-4D72-AA9A-4A24B54840E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A29CC26-64F1-4D72-AA9A-4A24B54840E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A29CC26-64F1-4D72-AA9A-4A24B54840E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A29CC26-64F1-4D72-AA9A-4A24B54840E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BCE7C6E-D438-4DFC-9923-0DA1D4540088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BCE7C6E-D438-4DFC-9923-0DA1D4540088}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BCE7C6E-D438-4DFC-9923-0DA1D4540088}.Release|Any CPU.ActiveCfg = Release|Any CPU
