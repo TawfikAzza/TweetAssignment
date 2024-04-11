@@ -1,3 +1,4 @@
+using Domain.Helpers;
 using Microsoft.EntityFrameworkCore;
 using UserService.Core.Repositories;
 
@@ -11,6 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserServiceContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("YourConnectionStringName")));
+builder.Services.AddScoped<Domain.Helpers.Publisher>(provider =>
+{
+    var connectionString = Environment.GetEnvironmentVariable("EASYNETQ_CONNECTION_STRING") ?? 
+    return new Publisher(connectionString);
+});
 builder.Services.AddScoped<UserServiceRepository>();
 builder.Services.AddScoped<UserService.Core.Services.UserService>();
 

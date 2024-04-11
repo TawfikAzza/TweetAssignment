@@ -13,8 +13,11 @@ public class Publisher
         }
         _bus = RabbitHutch.CreateBus(connectionString);
     }
-    
-    public Publisher() { } // For testing purposes
+
+    public Publisher()
+    {
+        
+    } // For testing purposes
 
     public virtual async Task PublishMessageAsync(ITMessage message, string topic)
     {

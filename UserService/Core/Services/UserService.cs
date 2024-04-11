@@ -7,13 +7,11 @@ namespace UserService.Core.Services;
 public class UserService
 {
     private readonly UserServiceRepository _repository;
-    private readonly Subscriber _subscriber;
     private readonly Publisher _publisher;
-    public UserService(UserServiceRepository repository)
+    public UserService(UserServiceRepository repository, Publisher publisher)
     {
         _repository = repository;
-        _subscriber = new Subscriber();
-        _publisher = new Publisher();
+        _publisher = publisher;
     }
  
 

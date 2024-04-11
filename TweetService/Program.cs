@@ -14,12 +14,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TweeServiceContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("YourConnectionStringName")));
 builder.Services.AddScoped<TweetServiceRepository>();
-builder.Services.AddScoped<TweetService.Core.Services.TweetService>();
 builder.Services.AddScoped<Domain.Helpers.Publisher>(provider =>
 {
     var connectionString = Environment.GetEnvironmentVariable("EASYNETQ_CONNECTION_STRING");
     return new Publisher(connectionString);
 });
+builder.Services.AddScoped<TweetService.Core.Services.TweetService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
